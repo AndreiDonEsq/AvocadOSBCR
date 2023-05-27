@@ -75,3 +75,10 @@ async function _currentURLRetriever() {
         alert("Current URL: " + currentURL);
     });
 };
+
+const userAction = async (url) => {
+    // https?:\/\/(?:.*\.)*(.+\..+?)\/
+    const response = await fetch('http://localhost:3000/api/partners');
+    const myJson = await response.json(); 
+
+  }
