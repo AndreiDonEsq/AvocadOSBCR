@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     vbCuValiBtn.addEventListener("click", createMessage);
 });
 
+const urlReq = "http://localhost:3000";
+
 const messages = [
     {role: 'system', content: 'You must respond as a financial assistant. Give clear answers, however try to act a little bit like a salesman as well.'}
 ];
@@ -17,7 +19,7 @@ async function chatGPTRequest(message) {
         }
     );
 
-    const res = await fetch('/chat', {
+    const res = await fetch(urlReq+'/api/chat', {
         method: 'POST',
         body: JSON.stringify(messages)
     });
@@ -208,8 +210,7 @@ async function _currentURLRetriever() {
 //     });
 // };
 
-const userAction = async (url) => {
-    const urlReq = "http://localhost:3000/api/partner"; // Replace with your API endpoint
+const userAction = async (url) => { // Replace with your API endpoint
 
 const data = {
   "url": url,
@@ -228,7 +229,7 @@ const options = {
   body: JSON.stringify(data)
 };
 
-fetch(urlReq, options)
+fetch(urlReq+"/api/partner", options)
   .then(response => response.json())
   .then(data => {
     console.log('Response:', data.rows);
