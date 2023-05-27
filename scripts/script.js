@@ -23,14 +23,12 @@ async function chatGPTRequest(message) {
 
     const res = await fetch(urlReq + "/api/chat", {
         method: "POST",
-        body: JSON.stringify({"messages" : messages}),
+        body: JSON.stringify(messages),
+    }).then((resp) => resp.json())
+    .then((data) => {
+        message.push(data.choices[0]);
+        return data.choices[0].message;
     });
-
-    if(!res.error){
-        const chatGPTMessage = res.json();
-        messages.push(chatGPTMessage);
-        console.log(chatGPTMessage);
-    }
 }
 
 //Check if cashback verification is active
