@@ -5,24 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     vbCuValiBtn.addEventListener("click", createMessage);
 });
 
+//Check if cashback verification is active
 let URLRetrievalRunning = false;
-/*
-                <div class="row justify-content-end mx-1 d-flex">
-                    <div class="row justify-content-end mx-1 d-flex col-auto px-0">
-                        <span class="chat-log_author">
-                            @James
-                        </span>
-                    </div>
-                </div>
-                <hr class="my-1 py-0 col-8" style="opacity: 0.5">
-                <div class="chat-log_message">
-                    <p>Lorem Ipsum is simply dummy text of the printing</p>
-                </div>
-                <hr class="my-1 py-0 col-8" style="opacity: 0.5">
-                <div class="row chat-log_time m-0 p-0 justify-content-end">
-                    23:15
-                </div>
-*/
 
 async function createMessage(sText){
     /*
@@ -60,6 +44,7 @@ async function createMessage(sText){
     entireMessageDiv.appendChild(divider2);
     divider2.classList.add("my-1", "py-0", "col-8");
 
+    //Get current date time and add them
     let currentDate = new Date(),
         currentHour = String(currentDate.getHours()),
         currentMinute = String(currentDate.getMinutes());
@@ -69,7 +54,6 @@ async function createMessage(sText){
     entireMessageDiv.appendChild(timeDiv);
     timeDiv.classList.add("row", "chat-log_time", "m-0", "p-0", "justify-content-end");
     timeDiv.innerHTML = `${currentHour}:${currentMinute}`;
-
 }
 
 async function onCashbackToggle() {
