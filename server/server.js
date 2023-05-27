@@ -1,14 +1,13 @@
 const { Configuration, OpenAIApi } = require('openai');
 
 const http = require("http");
+const { response } = require('express');
 
 const sqlite3 = require("sqlite3").verbose();
 
 const server = http.createServer(async (req, res) => {
-    
-    
     const configuration = new Configuration({
-        apiKey: 'benis'
+        apiKey: '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'
     });
     const openai = new OpenAIApi(configuration);
 
@@ -119,12 +118,12 @@ const server = http.createServer(async (req, res) => {
             body += chunk;
         });
 
-        req.on("end", () => {
-            const messages = JSON.parse(body).messages;
+        req.on("end", async () => {
+            const messages = JSON.parse(body);
             console.log(messages);
            
-            /*
-            const chatGPT = openai.createChatCompletion({
+            
+            const chatGPT = await openai.createChatCompletion({
                 model: 'gpt-3.5-turbo',
                 messages: messages,
                 temperature: 1.0,
@@ -133,11 +132,11 @@ const server = http.createServer(async (req, res) => {
                 stream: false,
                 presence_penalty: 0,
                 frequency_penalty: 0
-            },() => {
-                const chatGPTMessage=chatGPT.data.choices[0].message;
+            }).then((response) => {
+                const chatGPTMessage = response.data.choices[0].message;
                 res.end(JSON.stringify({chatGPTMessage}));
-            });
-            */
+            })
+            
         })
         break;
         
