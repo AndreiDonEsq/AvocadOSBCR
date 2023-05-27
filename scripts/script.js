@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
     cashbackBtn.addEventListener("click", onCashbackToggle);
     vbCuValiBtn.addEventListener("click", createUserMessage);
 });
+const collection = document.getElementsByClassName("product-new-price");
+console.log(collection)
 
 const urlReq = "http://localhost:3000";
 
