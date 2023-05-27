@@ -13,7 +13,7 @@ const messages = [
     {
         role: "system",
         content:
-            "You must respond as a financial assistant. Give clear answers, however try to act a little bit like a salesman as well.",
+            "You must respond as a financial assistant named Vali, working for 'team AvocadOS'. Give clear answers, however try to act a little bit like a salesman as well.",
     },
 ];
 
@@ -26,11 +26,12 @@ async function chatGPTRequest(message) {
     const res = await fetch(urlReq + "/api/chat", {
         method: "POST",
         body: JSON.stringify(messages),
-    }).then((resp) => resp.json())
-    .then((data) => {
-        message.push(data.choices[0]);
-        return data.choices[0].message;
-    });
+    })
+        .then((resp) => resp.json())
+        .then((data) => {
+            messages.push(data);
+            _createValiMessage(data.content);
+        });
 }
 
 //Check if cashback verification is active
@@ -213,11 +214,13 @@ const userAction = async (url) => {
     fetch(urlReq + "/api/partner", options)
         .then((response) => response.json())
         .then((data) => {
-            data.rows.forEach(element => {
-                if(element.name == normalisedUrl.host){
-                    _createValiMessage(`Ai Vali moneyback pentru ${element.name}, economiseste ${element.procent}% la cumparaturile tale cu cea mai tare extensie de banking`)
+            data.rows.forEach((element) => {
+                if (element.name == normalisedUrl.host) {
+                    _createValiMessage(
+                        `Ai Vali moneyback pentru ${element.name}, economiseste ${element.procent}% la cumparaturile tale cu cea mai tare extensie de banking`
+                    );
                 }
-            })     
+            });
         })
         .catch((error) => {
             console.error("Error:", error);

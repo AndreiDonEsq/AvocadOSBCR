@@ -1,13 +1,14 @@
-const { Configuration, OpenAIApi } = require('openai');
-
+const dotenv = require('dotenv');
+dotenv.config({path: './config.env'});
 const http = require("http");
 const { response } = require('express');
-
+const { Configuration, OpenAIApi } = require('openai');
 const sqlite3 = require("sqlite3").verbose();
+
 
 const server = http.createServer(async (req, res) => {
     const configuration = new Configuration({
-        apiKey: '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'
+        apiKey: process.env.OPENAIAPIKEY
     });
     const openai = new OpenAIApi(configuration);
 
@@ -92,7 +93,6 @@ const server = http.createServer(async (req, res) => {
         req.on("end", () => {
             const db = new sqlite3.Database("partners.db");
             const { url } = JSON.parse(body);
-            console.log(url)
             if (!url) {
                 res.writeHead(400, { "Content-Type": "application/json" });
                 res.end(JSON.stringify({ error: "url is required" }));
@@ -104,7 +104,6 @@ const server = http.createServer(async (req, res) => {
                     console.error('Error executing query:', error.message);
                 } else {
                     res.writeHead(200, { "Content-Type": "application/json" });
-                    console.log(JSON.stringify({rows}))
                     res.end(JSON.stringify({rows}));
                 }
               });
@@ -120,7 +119,6 @@ const server = http.createServer(async (req, res) => {
 
         req.on("end", async () => {
             const messages = JSON.parse(body);
-            console.log(messages);
            
             const chatGPT = await openai.createChatCompletion({
                 model: 'gpt-3.5-turbo',
@@ -133,8 +131,7 @@ const server = http.createServer(async (req, res) => {
                 frequency_penalty: 0
             }).then((response) => {
                 const chatGPTMessage = response.data.choices[0].message;
-                console.log(chatGPTMessage)
-                res.end(JSON.stringify({chatGPTMessage}));
+                res.end(JSON.stringify(chatGPTMessage));
             })
         })
         break;
