@@ -8,7 +8,7 @@ const server = http.createServer(async (req, res) => {
     
     
     const configuration = new Configuration({
-        apiKey: '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'
+        apiKey: 'benis'
     });
     const openai = new OpenAIApi(configuration);
 
@@ -116,22 +116,28 @@ const server = http.createServer(async (req, res) => {
         body = "";
 
         req.on("data", (chunk) => {
-
             body += chunk;
         });
 
         req.on("end", () => {
-          
-            const { messages } = JSON.parse(body);
-            console.log(messages)
+            const messages = JSON.parse(body).messages;
+            console.log(messages);
            
+            /*
             const chatGPT = openai.createChatCompletion({
                 model: 'gpt-3.5-turbo',
-                messages
+                messages: messages,
+                temperature: 1.0,
+                top_p: 0.7,
+                n: 1,
+                stream: false,
+                presence_penalty: 0,
+                frequency_penalty: 0
             },() => {
                 const chatGPTMessage=chatGPT.data.choices[0].message;
                 res.end(JSON.stringify({chatGPTMessage}));
             });
+            */
         })
         break;
         
