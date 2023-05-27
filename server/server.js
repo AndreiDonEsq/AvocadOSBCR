@@ -8,7 +8,7 @@ const server = http.createServer(async (req, res) => {
     
     
     const configuration = new Configuration({
-        apiKey: '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'
+        apiKey: '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'
     });
     const openai = new OpenAIApi(configuration);
 
@@ -114,20 +114,27 @@ const server = http.createServer(async (req, res) => {
     //ChatGPT case reserved
     case (req.url === "/api/chat" && req.method === "POST"):
         body = "";
+
         req.on("data", (chunk) => {
+
             body += chunk;
         });
-        console.error(body);
-        const messages = JSON.parse(req.body);
-        const chatGPT = await openai.createChatCompletion({
-            model: 'gpt-3.5-turbo',
-            messages
-        });
-        const chatGPTMessage=chatGPT.data.choices[0].message;
-    
-        console.log(chatGPTMessage);
-    
-        return json(chatGPTMessage);
+
+        req.on("end", () => {
+          
+            const { messages } = JSON.parse(body);
+            console.log(messages)
+           
+            const chatGPT = openai.createChatCompletion({
+                model: 'gpt-3.5-turbo',
+                messages
+            },() => {
+                const chatGPTMessage=chatGPT.data.choices[0].message;
+                res.end(JSON.stringify({chatGPTMessage}));
+            });
+        })
+        break;
+        
     default:
         // Handle other routes
         res.writeHead(404, { "Content-Type": "application/json" });
