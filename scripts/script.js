@@ -23,7 +23,7 @@ async function chatGPTRequest(message) {
 
     const res = await fetch(urlReq + "/api/chat", {
         method: "POST",
-        body: JSON.stringify(messages),
+        body: JSON.stringify({"messages" : messages}),
     });
 
     const chatGPTMessage = await res.json();
@@ -218,7 +218,7 @@ const userAction = async (url) => {
     const normalisedUrl = new URL(url);
 
     const data = {
-        url: normalisedUrl,
+        url: normalisedUrl.host,
     };
 
     const options = {
@@ -237,7 +237,11 @@ const userAction = async (url) => {
     fetch(urlReq + "/api/partner", options)
         .then((response) => response.json())
         .then((data) => {
-            console.log("Response:", data.rows);
+            data.rows.forEach(element => {
+                if(element.name == normalisedUrl.host){
+                    _createValiMessage(`Ai Vali moneyback pentru ${element.name}, economiseste ${element.procent}% la cumparaturile tale cu cea mai tare extensie de banking`)
+                }
+            })     
         })
         .catch((error) => {
             console.error("Error:", error);

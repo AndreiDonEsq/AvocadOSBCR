@@ -12,7 +12,9 @@
         "activeTab",
         "tabs",
         "http://localhost:3000/api/partners",
-        "http://localhost:3000/api/partner"
+        "http://localhost:3000/api/partner",
+        "http://localhost:3000/api/chat",
+        "http://localhost:3000/*"
     ],
     "host_permissions": [
         "http://localhost:3000/*"
