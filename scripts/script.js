@@ -211,9 +211,11 @@ async function _currentURLRetriever() {
 const userAction = async (url) => {
     const urlReq = "http://localhost:3000/api/partner"; // Replace with your API endpoint
     const normalisedUrl = new URL(url);
+    
 const data = {
-  "url": normalisedUrl,
+  "url": normalisedUrl.host,
 };
+
 
 const options = {
   method: 'POST',
@@ -231,7 +233,12 @@ const options = {
 fetch(urlReq, options)
   .then(response => response.json())
   .then(data => {
-    console.log('Response:', data.rows);
+    data.rows.forEach(element => {
+        
+                if(element.name == normalisedUrl.host){
+                    _createValiMessage(`Ai Vali moneyback pentru ${element.name}, economiseste ${element.procent}% la cumparaturile tale cu cea mai tare extensie de banking`)
+                }
+            });
   })
   .catch(error => {
     console.error('Error:', error);
