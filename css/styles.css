@@ -77,3 +77,8 @@ body{
 	position:relative;
 	top:1px;
 }
+.space {
+	width: 4px;
+	height: auto;
+	display: inline-block;
+  }

@@ -11,13 +11,10 @@
 <body>
     
     <div class="container mt-3" class="d-flex justify-content-center" style="width: 450px">
-        <img src="../images/icon128.png" height="150" width="200">
-        <div class="container mt-3" class="d-flex justify-content-center" style="width: 180px">
-            <button type="button" id="cashbackToggleButton"
-                class="cashbackButton d-flex justify-content-center">Cashback OFF</button>
-                <button type="button" id="vbCuValiButton"
-                class="cashbackButton d-flex justify-content-center">VB cu Vali</button>
-        </div>
+        <div class="container mt-3" class="d-flex justify-content-center" style="width: 150px">
+            <img src="../images/icon128.png">
+        </div> 
+        
     </div>
     <div class="col col-md-10 col-lg-9 col-xl-8 mx-auto my-auto">
         <div class="card my-5 msgcard">
@@ -28,9 +25,15 @@
                 </div>
             </div>
             <div class="card-footer border-0 bottom-rounded z-depth-0" style="background-color: #54a3f8">
-                <p style="color:aliceblue;">@AvocadOS</p>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" id="cashbackToggleButton"
+                    class="btn btn-secondary cashbackButton d-flex justify-content-center" data-container="body" data-toggle="popover" data-placement="top">Cashback OFF</button>
+                    <button type="button" id="vbCuValiButton"
+                    class="btn btn-secondary cashbackButton d-flex justify-content-center" data-container="body" data-toggle="popover" data-placement="right">VB cu Vali</button>
+                  </div>
                 </div class="row">
             </div>
+            <p style="color:#1b51db;"><b>@AvocadOS</b></p>     
         </div>
     </div>
     </div>
