@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-dotenv.config({path: './config.env'});
+dotenv.config();
 const http = require("http");
 const { response } = require('express');
 const { Configuration, OpenAIApi } = require('openai');

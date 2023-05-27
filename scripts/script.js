@@ -4,8 +4,22 @@ document.addEventListener("DOMContentLoaded", function () {
     cashbackBtn.addEventListener("click", onCashbackToggle);
     vbCuValiBtn.addEventListener("click", createUserMessage);
 });
-const collection = document.getElementsByClassName("product-new-price");
-console.log(collection)
+
+function extractData() {
+    var data = 'Data you want to extract';
+    
+    // Send the extracted data to the background script
+    chrome.runtime.sendMessage({ action: 'sendData', data: data });
+    console.log(data)
+  }
+  
+  // Listen for messages from the background script
+  chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    if (message.action === 'extractData') {
+      // Call the function to extract data
+      extractData();
+    }
+  });
 
 const urlReq = "http://localhost:3000";
 
