@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-dotenv.config({path: './config.env'});
+dotenv.config();
 const http = require("http");
 const { response } = require('express');
 const { Configuration, OpenAIApi } = require('openai');
@@ -146,4 +146,5 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(3000, () => {
     console.log("Server is running on port 3000");
+    console.log(require("dotenv").config());
 });
