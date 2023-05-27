@@ -10,8 +10,10 @@
     },
     "permissions": [
         "activeTab",
-        "tabs"
+        "tabs",
+        "http://localhost:3000/api/partners"
     ],
+    
     "background": {
         "service_worker": "scripts/background.js"
     },
@@ -24,5 +26,7 @@
         "48": "images/icon48.png",
         "128": "images/icon128.png"
     }
+  
+   
 
 }

@@ -167,12 +167,20 @@ async function _currentURLRetriever() {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         const currentTab = tabs[0];
         const currentURL = currentTab.url;
+        userAction(currentURL);
         alert("Current URL: " + currentURL);
     });
 }
 
 const userAction = async (url) => {
-    // https?:\/\/(?:.*\.)*(.+\..+?)\/
+    normalisedUrl = new URL(url);
     const response = await fetch("http://localhost:3000/api/partners");
     const myJson = await response.json();
+    
+    myJson.forEach(element => {
+        
+        if(element.name == normalisedUrl.host){
+            alert(`Oferim moneyback pentru e ${element.name}`)
+        }
+    });
 };
