@@ -2,7 +2,7 @@ const cashbackBtn = document.getElementById("cashbackToggleButton");
 const vbCuValiBtn = document.getElementById("vbCuValiButton");
 document.addEventListener("DOMContentLoaded", function () {
     cashbackBtn.addEventListener("click", onCashbackToggle);
-    vbCuValiBtn.addEventListener("click", createMessage);
+    vbCuValiBtn.addEventListener("click", createUserMessage);
 });
 
 const urlReq = "http://localhost:3000";
@@ -34,19 +34,7 @@ async function chatGPTRequest(message) {
 //Check if cashback verification is active
 let URLRetrievalRunning = false;
 
-let bUserMessage = false;
-//Probably wanna pass a param here in the future
-function createMessage() {
-    if (bUserMessage) {
-        _createUserMessage();
-        bUserMessage = false;
-    } else {
-        _createValiMessage(null);
-        bUserMessage = true;
-    }
-}
-
-async function _createUserMessage() {
+async function createUserMessage() {
     /*
         entireMessageDiv
             authorDiv

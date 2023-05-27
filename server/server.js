@@ -122,7 +122,6 @@ const server = http.createServer(async (req, res) => {
             const messages = JSON.parse(body);
             console.log(messages);
            
-            
             const chatGPT = await openai.createChatCompletion({
                 model: 'gpt-3.5-turbo',
                 messages: messages,
@@ -137,7 +136,6 @@ const server = http.createServer(async (req, res) => {
                 console.log(chatGPTMessage)
                 res.end(JSON.stringify({chatGPTMessage}));
             })
-            
         })
         break;
         
