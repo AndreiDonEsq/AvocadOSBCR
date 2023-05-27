@@ -12,7 +12,7 @@ let bUserMessage = false;
 //Probably wanna pass a param here in the future
 function createMessage(){
     if(bUserMessage){
-        _createUserMessage(null);
+        _createUserMessage();
         bUserMessage = false;
     } else {
         _createValiMessage(null);
@@ -20,7 +20,7 @@ function createMessage(){
     }
 }
 
-async function _createUserMessage(sText) {
+async function _createUserMessage() {
     /*
         entireMessageDiv
             authorDiv
@@ -61,8 +61,12 @@ async function _createUserMessage(sText) {
     const messageDiv = document.createElement("div");
     entireMessageDiv.appendChild(messageDiv);
     messageDiv.classList.add("chat-log_message");
-    messageDiv.innerHTML =
-        "salut bro sunt eu bro sunt eusalut bro sunt eu bro sunt eusalut bro sunt eu bro sunt eusalut bro sunt eu bro sunt eu";
+    
+    //Read textArea content, set it as message. This will later be sent to ChatGPT.
+    const messageContent = document.getElementById("messageTextArea").value;
+    messageDiv.innerHTML = messageContent;
+    //Don't foregt to clear the textarea
+    document.getElementById("messageTextArea").value = '';
 
     const divider2 = document.createElement("hr");
     entireMessageDiv.appendChild(divider2);
