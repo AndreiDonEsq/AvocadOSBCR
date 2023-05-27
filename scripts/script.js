@@ -2,48 +2,44 @@ const cashbackBtn = document.getElementById("cashbackToggleButton");
 const vbCuValiBtn = document.getElementById("vbCuValiButton");
 document.addEventListener("DOMContentLoaded", function () {
     cashbackBtn.addEventListener("click", onCashbackToggle);
-    vbCuValiBtn.addEventListener("click", createMessage);
+    vbCuValiBtn.addEventListener("click", createUserMessage);
 });
+const collection = document.getElementsByClassName("product-new-price");
+console.log(collection)
+
+const urlReq = "http://localhost:3000";
 
 const messages = [
-    {role: 'system', content: 'You must respond as a financial assistant. Give clear answers, however try to act a little bit like a salesman as well.'}
+    {
+        role: "system",
+        content:
+            "You must respond as a financial assistant named Vali, working for 'team AvocadOS'." +
+            "Please respond in Romanian as that is our target group" +
+            "Give clear answers, however try to act a little bit like a salesman as well.",
+    },
 ];
 
 async function chatGPTRequest(message) {
-    messages.push(
-        {
-            role: 'user',
-            content: 'message'
-        }
-    );
-
-    const res = await fetch('/chat', {
-        method: 'POST',
-        body: JSON.stringify(messages)
+    messages.push({
+        role: "user",
+        content: message,
     });
 
-    const chatGPTMessage = await res.json();
-
-    messages.push(chatGPTMessage);
-    console.log(chatGPTMessage);
+    const res = await fetch(urlReq + "/api/chat", {
+        method: "POST",
+        body: JSON.stringify(messages),
+    })
+        .then((resp) => resp.json())
+        .then((data) => {
+            messages.push(data);
+            _createValiMessage(data.content);
+        });
 }
 
 //Check if cashback verification is active
 let URLRetrievalRunning = false;
 
-let bUserMessage = false;
-//Probably wanna pass a param here in the future
-function createMessage(){
-    if(bUserMessage){
-        _createUserMessage();
-        bUserMessage = false;
-    } else {
-        _createValiMessage(null);
-        bUserMessage = true;
-    }
-}
-
-async function _createUserMessage() {
+async function createUserMessage() {
     /*
         entireMessageDiv
             authorDiv
@@ -84,13 +80,13 @@ async function _createUserMessage() {
     const messageDiv = document.createElement("div");
     entireMessageDiv.appendChild(messageDiv);
     messageDiv.classList.add("chat-log_message");
-    
+
     //Read textArea content, set it as message. This will later be sent to ChatGPT.
     const messageContent = document.getElementById("messageTextArea").value;
     messageDiv.innerHTML = messageContent;
     chatGPTRequest(messageContent);
     //Don't foregt to clear the textarea
-    document.getElementById("messageTextArea").value = '';
+    document.getElementById("messageTextArea").value = "";
 
     const divider2 = document.createElement("hr");
     entireMessageDiv.appendChild(divider2);
@@ -127,14 +123,17 @@ async function _createValiMessage(sText) {
     */
     const entireMessageDiv = document.createElement("div");
     document.getElementById("messages_container").appendChild(entireMessageDiv);
-    entireMessageDiv.classList.add(
-        "chat-log_item",
-        "z-depth-0"
-    );
+    entireMessageDiv.classList.add("chat-log_item", "z-depth-0");
 
     const authorDiv = document.createElement("div");
     entireMessageDiv.appendChild(authorDiv);
-    authorDiv.classList.add("row", "justify-content-end", "mx-1", "d-flex", "col-auto", "px-0"
+    authorDiv.classList.add(
+        "row",
+        "justify-content-end",
+        "mx-1",
+        "d-flex",
+        "col-auto",
+        "px-0"
     );
 
     const authorSpan = document.createElement("span");
@@ -148,7 +147,7 @@ async function _createValiMessage(sText) {
 
     const messageDiv = document.createElement("div");
     entireMessageDiv.appendChild(messageDiv);
-    messageDiv.innerHTML = sText ;
+    messageDiv.innerHTML = sText;
 
     const divider2 = document.createElement("hr");
     entireMessageDiv.appendChild(divider2);
@@ -173,7 +172,6 @@ async function _createValiMessage(sText) {
     timeDiv.innerHTML = `${currentHour}:${currentMinute}`;
 }
 
-
 async function onCashbackToggle() {
     if (cashbackBtn.textContent.includes("ON")) {
         cashbackBtn.textContent = "Cashback OFF";
@@ -195,45 +193,38 @@ async function _currentURLRetriever() {
     });
 }
 
-// const userAction = async (url) => {
-//     normalisedUrl = new URL(url);
-//     const response = await fetch("http://localhost:3000/api/partners");
-//     const myJson = await response.json();
-    
-//     myJson.forEach(element => {
-        
-//         if(element.name == normalisedUrl.host){
-//             _createValiMessage(`Ai Vali moneyback pentru ${element.name}, economiseste ${element.procent}% la cumparaturile tale cu cea mai tare extensie de banking`)
-//         }
-//     });
-// };
-
 const userAction = async (url) => {
-    const urlReq = "http://localhost:3000/api/partner"; // Replace with your API endpoint
     const normalisedUrl = new URL(url);
-const data = {
-  "url": normalisedUrl,
-};
 
-const options = {
-  method: 'POST',
-  headers: {
-    
-    'Content-Type': 'application/json',
-    'chrome-extension':'//dhgbflmciegpmknahfplcnofcgbgfjge',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    "Access-Control-Allow-Origin" : "chrome-extension://dhgbflmciegpmknahfplcnofcgbgfjge"
-  },
-  body: JSON.stringify(data)
-};
+    const data = {
+        url: normalisedUrl.host,
+    };
 
-fetch(urlReq, options)
-  .then(response => response.json())
-  .then(data => {
-    console.log('Response:', data.rows);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "chrome-extension": "//dhgbflmciegpmknahfplcnofcgbgfjge",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin":
+                "chrome-extension://dhgbflmciegpmknahfplcnofcgbgfjge",
+        },
+        body: JSON.stringify(data),
+    };
+
+    fetch(urlReq + "/api/partner", options)
+        .then((response) => response.json())
+        .then((data) => {
+            data.rows.forEach((element) => {
+                if (element.name == normalisedUrl.host) {
+                    _createValiMessage(
+                        `Ai Vali moneyback pentru ${element.name}, economiseste ${element.procent}% la cumparaturile tale cu cea mai tare extensie de banking`
+                    );
+                }
+            });
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
 };

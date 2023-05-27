@@ -1,11 +1,17 @@
-const { Configuration, OpenAIApi } = require('openai');
-
+const dotenv = require('dotenv');
+dotenv.config({path: './config.env'});
 const http = require("http");
-
+const { response } = require('express');
+const { Configuration, OpenAIApi } = require('openai');
 const sqlite3 = require("sqlite3").verbose();
 
-const server = http.createServer((req, res) => {
-    
+
+const server = http.createServer(async (req, res) => {
+    const configuration = new Configuration({
+        apiKey: process.env.OPENAIAPIKEY
+    });
+    const openai = new OpenAIApi(configuration);
+
     res.setHeader(
         "Access-Control-Allow-Origin",
         "chrome-extension://dhgbflmciegpmknahfplcnofcgbgfjge"
@@ -87,7 +93,6 @@ const server = http.createServer((req, res) => {
         req.on("end", () => {
             const db = new sqlite3.Database("partners.db");
             const { url } = JSON.parse(body);
-            console.log(url)
             if (!url) {
                 res.writeHead(400, { "Content-Type": "application/json" });
                 res.end(JSON.stringify({ error: "url is required" }));
@@ -99,12 +104,38 @@ const server = http.createServer((req, res) => {
                     console.error('Error executing query:', error.message);
                 } else {
                     res.writeHead(200, { "Content-Type": "application/json" });
-                    console.log(JSON.stringify({rows}))
                     res.end(JSON.stringify({rows}));
                 }
               });
         });
         break;
+    //ChatGPT case reserved
+    case (req.url === "/api/chat" && req.method === "POST"):
+        body = "";
+
+        req.on("data", (chunk) => {
+            body += chunk;
+        });
+
+        req.on("end", async () => {
+            const messages = JSON.parse(body);
+           
+            const chatGPT = await openai.createChatCompletion({
+                model: 'gpt-3.5-turbo',
+                messages: messages,
+                temperature: 1.0,
+                top_p: 0.7,
+                n: 1,
+                stream: false,
+                presence_penalty: 0,
+                frequency_penalty: 0
+            }).then((response) => {
+                const chatGPTMessage = response.data.choices[0].message;
+                res.end(JSON.stringify(chatGPTMessage));
+            })
+        })
+        break;
+        
     default:
         // Handle other routes
         res.writeHead(404, { "Content-Type": "application/json" });
@@ -116,21 +147,3 @@ const server = http.createServer((req, res) => {
 server.listen(3000, () => {
     console.log("Server is running on port 3000");
 });
-
-const configuration = new Configuration({
-    apiKey: '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'
-});
-const openai = new OpenAIApi(configuration);
-
-async function runCompletion (request) {
-    const messages = request.JSON;
-    const chatGPT = await openai.createChatCompletion({
-        model: 'gpt-3.5-turbo',
-        messages
-    });
-    const chatGPTMessage=chatGPT.data.choices[0].message;
-
-    console.log(chatGPTMessage);
-
-    return json(chatGPTMessage);
-}
