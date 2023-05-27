@@ -191,12 +191,11 @@ async function _currentURLRetriever() {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         const currentTab = tabs[0];
         const currentURL = currentTab.url;
-        userAction(currentURL);
-        alert("Current URL: " + currentURL);
+        _proceedToSendURLMessage(currentURL);
     });
 }
 
-const userAction = async (url) => {
+const _proceedToSendURLMessage = async (url) => {
     const normalisedUrl = new URL(url);
 
     const data = {
@@ -221,8 +220,20 @@ const userAction = async (url) => {
         .then((data) => {
             data.rows.forEach((element) => {
                 if (element.name == normalisedUrl.host) {
+                    const randomValiMessages = [
+                        `Descoperă beneficiile Vali Moneyback! Economisești ${element.procent}% la achizițiile tale pentru ${element.name} cu ajutorul celei mai avansate extensii de banking.`,
+                        `Vrei să economisești bani la cumpărături? Cu Vali Moneyback, poți obține ${element.procent}% reducere pentru ${element.name}, folosind cea mai inovatoare extensie de banking disponibilă.`,
+                        `Descoperă avantajele utilizării Vali Moneyback! Cu această extensie revoluționară de banking, ai posibilitatea să economisești ${element.procent}% la orice achiziție pentru ${element.name} pe care o faci.`,
+                        `Transformă-ți cumpărăturile în economii cu Vali Moneyback! Cu cea mai tare extensie de banking de pe piață, poți economisi ${element.procent}% la fiecare achiziție pentru ${element.name} pe care o faci."`,
+                        `Economisește mai mulți bani cu Vali Moneyback! Folosind extensia de banking cea mai avansată, primești ${element.procent}% reducere la toate cumpărăturile tale pentru ${element.name}.`,
+                        `Descoperă Vali Moneyback și bucură-te de economii instant la cumpărăturile tale pentru ${element.name}! Folosește extensia de banking inovatoare pentru a obține o reducere de ${element.procent}% la fiecare achiziție.`,
+                        `Ai auzit de Vali Moneyback? Cu această extensie inteligentă de banking, economisești ${element.procent}% la toate cumpărăturile tale pentru ${element.name}, făcute într-un mod ușor și convenabil.`,
+                        `Transformă-ți cumpărăturile într-o experiență mai avantajoasă cu Vali Moneyback! Obține ${element.procent}% cashback la fiecare achiziție pentru ${element.name}, utilizând extensia de banking cea mai performantă de pe piață.`,
+                        `Economisește mai mult cu Vali Moneyback! Cu ajutorul celei mai tari extensii de banking, primești o reducere de ${element.procent}% la toate achizițiile tale pentru ${element.name}, oferindu-ți mai multă putere de cumpărare.`,
+                        `Descoperă cum să economisești bani cu Vali Moneyback! Utilizând extensia de banking inovatoare, primești ${element.procent}% reducere la cumpărăturile tale pentru ${element.name}, asigurându-ți cea mai bună ofertă disponibilă.`
+                    ];
                     _createValiMessage(
-                        `Ai Vali moneyback pentru ${element.name}, economiseste ${element.procent}% la cumparaturile tale cu cea mai tare extensie de banking`
+                        randomValiMessages[Math.floor(Math.random()*randomValiMessages.length)]
                     );
                 }
             });
