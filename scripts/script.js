@@ -11,7 +11,9 @@ const messages = [
     {
         role: "system",
         content:
-            "You must respond as a financial assistant named Vali, working for 'team AvocadOS'. Give clear answers, however try to act a little bit like a salesman as well.",
+            "You must respond as a financial assistant named Vali, working for 'team AvocadOS'." +
+            "Please respond in Romanian as that is our target group" +
+            "Give clear answers, however try to act a little bit like a salesman as well.",
     },
 ];
 
