@@ -1,11 +1,11 @@
 {
-    "name": "Extension name placeholder",
+    "name": "Vali",
     "version": "1.0.0",
-    "description": "Your own personal financial buddy",
+    "description": "Your On-The-Go personal financial consultant",
     "manifest_version": 3,
     "author": "AvocadOS Team",
     "action":{
         "default_popup": "ui/index.html",
-        "default_title": "Extension name placeholder"
+        "default_title": "Vali"
     }
 }
