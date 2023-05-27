@@ -1,3 +1,5 @@
+import { Configuration, OpenAIApi } from 'openai';
+
 const http = require("http");
 
 const sqlite3 = require("sqlite3").verbose();
@@ -108,4 +110,22 @@ const server = http.createServer((req, res) => {
 
 server.listen(3000, () => {
     console.log("Server is running on port 3000");
+});
+
+const configuration = new Configuration({
+    apiKey: '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'
+});
+const openai = new OpenAIApi(configuration);
+
+export const POST = (async () => {
+    const messages = request.JSON;
+    const chatGPT = await openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        messages
+    });
+    const chatGPTMessage=chatGPT.data.choices[0].message;
+
+    console.log(chatGPTMessage);
+
+    return json(chatGPTMessage);
 });
