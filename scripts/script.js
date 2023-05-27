@@ -8,7 +8,19 @@ document.addEventListener("DOMContentLoaded", function () {
 //Check if cashback verification is active
 let URLRetrievalRunning = false;
 
-async function createMessage(sText) {
+let bUserMessage = false;
+//Probably wanna pass a param here in the future
+function createMessage(){
+    if(bUserMessage){
+        _createUserMessage();
+        bUserMessage = false;
+    } else {
+        _createValiMessage(null);
+        bUserMessage = true;
+    }
+}
+
+async function _createUserMessage() {
     /*
         entireMessageDiv
             authorDiv
@@ -40,7 +52,7 @@ async function createMessage(sText) {
     const authorSpan = document.createElement("span");
     authorDiv.appendChild(authorSpan);
     authorSpan.classList.add("chat-log_author");
-    authorSpan.innerHTML = "Vali";
+    authorSpan.innerHTML = "You";
 
     const divider1 = document.createElement("hr");
     entireMessageDiv.appendChild(divider1);
@@ -49,8 +61,12 @@ async function createMessage(sText) {
     const messageDiv = document.createElement("div");
     entireMessageDiv.appendChild(messageDiv);
     messageDiv.classList.add("chat-log_message");
-    messageDiv.innerHTML =
-        "salut bro sunt Valisalut bro sunt Valisalut bro sunt Valisalut bro sunt Vali";
+    
+    //Read textArea content, set it as message. This will later be sent to ChatGPT.
+    const messageContent = document.getElementById("messageTextArea").value;
+    messageDiv.innerHTML = messageContent;
+    //Don't foregt to clear the textarea
+    document.getElementById("messageTextArea").value = '';
 
     const divider2 = document.createElement("hr");
     entireMessageDiv.appendChild(divider2);
@@ -74,6 +90,66 @@ async function createMessage(sText) {
     );
     timeDiv.innerHTML = `${currentHour}:${currentMinute}`;
 }
+
+async function _createValiMessage(sText) {
+    /*
+        entireMessageDiv
+            authorDiv
+                authorSpan
+            divider1
+            messageDiv
+            divider2
+            timeDiv
+    */
+    const entireMessageDiv = document.createElement("div");
+    document.getElementById("messages_container").appendChild(entireMessageDiv);
+    entireMessageDiv.classList.add(
+        "chat-log_item",
+        "z-depth-0"
+    );
+
+    const authorDiv = document.createElement("div");
+    entireMessageDiv.appendChild(authorDiv);
+    authorDiv.classList.add("row", "justify-content-end", "mx-1", "d-flex", "col-auto", "px-0"
+    );
+
+    const authorSpan = document.createElement("span");
+    authorDiv.appendChild(authorSpan);
+    authorSpan.classList.add("chat-log_author_vali");
+    authorSpan.innerHTML = "Vali";
+
+    const divider1 = document.createElement("hr");
+    entireMessageDiv.appendChild(divider1);
+    divider1.classList.add("my-1", "py-0", "col-8");
+
+    const messageDiv = document.createElement("div");
+    entireMessageDiv.appendChild(messageDiv);
+    messageDiv.innerHTML =
+        "salut bro sunt Valisalut bro sunt Valisalut bro sunt Valisalut bro sunt Valisalut bro sunt Vali";
+
+    const divider2 = document.createElement("hr");
+    entireMessageDiv.appendChild(divider2);
+    divider2.classList.add("my-1", "py-0", "col-8");
+
+    //Get current date time and add them
+    let currentDate = new Date(),
+        currentHour = String(currentDate.getHours()),
+        currentMinute = String(currentDate.getMinutes());
+    currentHour = currentHour.length === 1 ? "0" + currentHour : currentHour;
+    currentMinute =
+        currentMinute.length === 1 ? "0" + currentMinute : currentMinute;
+    const timeDiv = document.createElement("div");
+    entireMessageDiv.appendChild(timeDiv);
+    timeDiv.classList.add(
+        "row",
+        "chat-log_time_vali",
+        "m-0",
+        "p-0",
+        "justify-content-end"
+    );
+    timeDiv.innerHTML = `${currentHour}:${currentMinute}`;
+}
+
 
 async function onCashbackToggle() {
     if (cashbackBtn.textContent.includes("ON")) {
