@@ -11,9 +11,12 @@
     "permissions": [
         "activeTab",
         "tabs",
-        "http://localhost:3000/api/partners"
+        "http://localhost:3000/api/partners",
+        "http://localhost:3000/api/partner"
     ],
-    
+    "host_permissions": [
+        "http://localhost:3000/*"
+    ],    
     "background": {
         "service_worker": "scripts/background.js"
     },
@@ -26,7 +29,4 @@
         "48": "images/icon48.png",
         "128": "images/icon128.png"
     }
-  
-   
-
 }

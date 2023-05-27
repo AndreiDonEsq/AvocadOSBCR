@@ -148,8 +148,7 @@ async function _createValiMessage(sText) {
 
     const messageDiv = document.createElement("div");
     entireMessageDiv.appendChild(messageDiv);
-    messageDiv.innerHTML =
-        "salut bro sunt Valisalut bro sunt Valisalut bro sunt Valisalut bro sunt Valisalut bro sunt Vali";
+    messageDiv.innerHTML = sText ;
 
     const divider2 = document.createElement("hr");
     entireMessageDiv.appendChild(divider2);
@@ -196,15 +195,45 @@ async function _currentURLRetriever() {
     });
 }
 
-const userAction = async (url) => {
-    normalisedUrl = new URL(url);
-    const response = await fetch("http://localhost:3000/api/partners");
-    const myJson = await response.json();
+// const userAction = async (url) => {
+//     normalisedUrl = new URL(url);
+//     const response = await fetch("http://localhost:3000/api/partners");
+//     const myJson = await response.json();
     
-    myJson.forEach(element => {
+//     myJson.forEach(element => {
         
-        if(element.name == normalisedUrl.host){
-            alert(`Oferim moneyback pentru e ${element.name}`)
-        }
-    });
+//         if(element.name == normalisedUrl.host){
+//             _createValiMessage(`Ai Vali moneyback pentru ${element.name}, economiseste ${element.procent}% la cumparaturile tale cu cea mai tare extensie de banking`)
+//         }
+//     });
+// };
+
+const userAction = async (url) => {
+    const urlReq = "http://localhost:3000/api/partner"; // Replace with your API endpoint
+
+const data = {
+  "url": url,
+};
+
+const options = {
+  method: 'POST',
+  headers: {
+    
+    'Content-Type': 'application/json',
+    'chrome-extension':'//dhgbflmciegpmknahfplcnofcgbgfjge',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    "Access-Control-Allow-Origin" : "chrome-extension://dhgbflmciegpmknahfplcnofcgbgfjge"
+  },
+  body: JSON.stringify(data)
+};
+
+fetch(urlReq, options)
+  .then(response => response.json())
+  .then(data => {
+    console.log('Response:', data.rows);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 };
