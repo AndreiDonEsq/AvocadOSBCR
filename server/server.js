@@ -43,7 +43,7 @@ const server = http.createServer((req, res) => {
             }
 
             db.run(
-                "INSERT INTO Partners (name,procent) VALUES (?)",
+                "INSERT INTO Partners (name,procent) VALUES (?, ?)",
                 [name, procent],
                 function (err) {
                     if (err) {
