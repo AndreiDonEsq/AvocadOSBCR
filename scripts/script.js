@@ -18,7 +18,7 @@ const messages = [
 async function chatGPTRequest(message) {
     messages.push({
         role: "user",
-        content: "message",
+        content: message,
     });
 
     const res = await fetch(urlReq + "/api/chat", {
@@ -26,10 +26,11 @@ async function chatGPTRequest(message) {
         body: JSON.stringify({"messages" : messages}),
     });
 
-    const chatGPTMessage = await res.json();
-
-    messages.push(chatGPTMessage);
-    console.log(chatGPTMessage);
+    if(!res.error){
+        const chatGPTMessage = res.json();
+        messages.push(chatGPTMessage);
+        console.log(chatGPTMessage);
+    }
 }
 
 //Check if cashback verification is active
@@ -200,19 +201,6 @@ async function _currentURLRetriever() {
         alert("Current URL: " + currentURL);
     });
 }
-
-// const userAction = async (url) => {
-//     normalisedUrl = new URL(url);
-//     const response = await fetch("http://localhost:3000/api/partners");
-//     const myJson = await response.json();
-
-//     myJson.forEach(element => {
-
-//         if(element.name == normalisedUrl.host){
-//             _createValiMessage(`Ai Vali moneyback pentru ${element.name}, economiseste ${element.procent}% la cumparaturile tale cu cea mai tare extensie de banking`)
-//         }
-//     });
-// };
 
 const userAction = async (url) => {
     const normalisedUrl = new URL(url);
