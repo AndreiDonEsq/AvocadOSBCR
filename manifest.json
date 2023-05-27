@@ -1,0 +1,11 @@
+{
+    "name": "Extension name placeholder",
+    "version": "1.0.0",
+    "description": "Your own personal financial buddy",
+    "manifest_version": 3,
+    "author": "AvocadOS Team",
+    "action":{
+        "default_popup": "ui/index.html",
+        "default_title": "Extension name placeholder"
+    }
+}
