@@ -146,4 +146,5 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(3000, () => {
     console.log("Server is running on port 3000");
+    console.log(require("dotenv").config());
 });
