@@ -13,7 +13,8 @@ body{
 }
 
 .chat-log_item {
-	background: #eaeaea;
+	background: #54a3f8;
+	color:#ffffff;
 	padding: 10px;
 	margin: 0 auto 10px;
 	max-width: 95%;
@@ -26,9 +27,8 @@ body{
 }
 
 .chat-log_item.chat-log_item-own {
-	color:#ffffff;
 	float: right;
-	background: #54a3f8;
+	background: #eaeaea;
 	text-align: right;
 	margin-right: 0.7rem;
   border-radius: 20px 0 20px 20px;
@@ -43,6 +43,13 @@ body{
 }
 
 .chat-log_author {
+	color:#000000;
+	margin: 0 auto 0em;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.chat-log_author_vali {
 	color:#ffffff;
 	margin: 0 auto 0em;
 	font-size: 12px;
@@ -50,11 +57,23 @@ body{
 }
 
 .chat-log_time {
+	color:#000000;
+	margin: 0 auto .5em;
+	direction: rtl;
+	font-size: 12px;
+	opacity: 0.5;
+}
+
+.chat-log_time_vali {
 	color:#ffffff;
 	margin: 0 auto .5em;
 	direction: rtl;
 	font-size: 12px;
 	opacity: 0.5;
+}
+
+.chat-log_message {
+	color:#000000
 }
 
 .cashbackButton {
