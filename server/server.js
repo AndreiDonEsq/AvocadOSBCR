@@ -18,7 +18,9 @@ const server = http.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    if (req.url === "/api/partners" && req.method === "GET") {
+    let body;
+    switch(true){
+    case(req.url === "/api/partners" && req.method === "GET"):
         // Handle GET request for /api/partners
         const db = new sqlite3.Database("partners.db");
 
@@ -34,9 +36,10 @@ const server = http.createServer((req, res) => {
             res.end(JSON.stringify(rows));
             db.close();
         });
-    } else if (req.url === "/api/partners" && req.method === "POST") {
+        break;   
+    case (req.url === "/api/partners" && req.method === "POST"):
         // Handle POST request for /api/partners
-        let body = "";
+        body = "";
 
         req.on("data", (chunk) => {
             body += chunk;
@@ -73,10 +76,10 @@ const server = http.createServer((req, res) => {
                 }
             );
         });
-    }
-    else if(req.url === "/api/partner" && req.method === "POST"){
-        let body = "";
 
+        break;
+    case (req.url === "/api/partner" && req.method === "POST"):
+        body = "";
         req.on("data", (chunk) => {
             body += chunk;
         });
@@ -100,11 +103,12 @@ const server = http.createServer((req, res) => {
                 }
               });
         });
-    }
-    else {
+        break;
+    default:
         // Handle other routes
         res.writeHead(404, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ error: "Not Found" }));
+        break;
     }
 });
 
@@ -128,8 +132,4 @@ async function runCompletion (request) {
     console.log(chatGPTMessage);
 
     return json(chatGPTMessage);
-}
-
-module.exports = {
-    runCompletion
 }
