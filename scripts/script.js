@@ -5,6 +5,29 @@ document.addEventListener("DOMContentLoaded", function () {
     vbCuValiBtn.addEventListener("click", createMessage);
 });
 
+const messages = [
+    {role: 'system', content: 'You must respond as a financial assistant. Give clear answers, however try to act a little bit like a salesman as well.'}
+];
+
+async function chatGPTRequest(message) {
+    messages.push(
+        {
+            role: 'user',
+            content: 'message'
+        }
+    );
+
+    const res = await fetch('/chat', {
+        method: 'POST',
+        body: JSON.stringify(messages)
+    });
+
+    const chatGPTMessage = await res.json();
+
+    messages.push(chatGPTMessage);
+    console.log(chatGPTMessage);
+}
+
 //Check if cashback verification is active
 let URLRetrievalRunning = false;
 
@@ -65,6 +88,7 @@ async function _createUserMessage() {
     //Read textArea content, set it as message. This will later be sent to ChatGPT.
     const messageContent = document.getElementById("messageTextArea").value;
     messageDiv.innerHTML = messageContent;
+    chatGPTRequest(messageContent);
     //Don't foregt to clear the textarea
     document.getElementById("messageTextArea").value = '';
 

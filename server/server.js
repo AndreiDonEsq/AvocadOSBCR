@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi } from 'openai';
+const { Configuration, OpenAIApi } = require('openai');
 
 const http = require("http");
 
@@ -77,11 +77,11 @@ server.listen(3000, () => {
 });
 
 const configuration = new Configuration({
-    apiKey: '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'
+    apiKey: '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'
 });
 const openai = new OpenAIApi(configuration);
 
-export const POST = (async () => {
+async function runCompletion (request) {
     const messages = request.JSON;
     const chatGPT = await openai.createChatCompletion({
         model: 'gpt-3.5-turbo',
@@ -92,4 +92,8 @@ export const POST = (async () => {
     console.log(chatGPTMessage);
 
     return json(chatGPTMessage);
-});
+}
+
+module.exports = {
+    runCompletion
+}
