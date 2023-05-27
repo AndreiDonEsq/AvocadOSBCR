@@ -210,9 +210,9 @@ async function _currentURLRetriever() {
 
 const userAction = async (url) => {
     const urlReq = "http://localhost:3000/api/partner"; // Replace with your API endpoint
-
+    const normalisedUrl = new URL(url);
 const data = {
-  "url": url,
+  "url": normalisedUrl,
 };
 
 const options = {

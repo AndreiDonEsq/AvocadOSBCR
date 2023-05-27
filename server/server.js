@@ -96,6 +96,7 @@ const server = http.createServer((req, res) => {
                     console.error('Error executing query:', error.message);
                 } else {
                     res.writeHead(200, { "Content-Type": "application/json" });
+                    console.log(JSON.stringify({rows}))
                     res.end(JSON.stringify({rows}));
                 }
               });
