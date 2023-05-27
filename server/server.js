@@ -7,7 +7,7 @@ const sqlite3 = require("sqlite3").verbose();
 
 const server = http.createServer(async (req, res) => {
     const configuration = new Configuration({
-        apiKey: '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'
+        apiKey: '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'
     });
     const openai = new OpenAIApi(configuration);
 
@@ -134,6 +134,7 @@ const server = http.createServer(async (req, res) => {
                 frequency_penalty: 0
             }).then((response) => {
                 const chatGPTMessage = response.data.choices[0].message;
+                console.log(chatGPTMessage)
                 res.end(JSON.stringify({chatGPTMessage}));
             })
             
