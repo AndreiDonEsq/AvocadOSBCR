@@ -4,8 +4,14 @@ const http = require("http");
 
 const sqlite3 = require("sqlite3").verbose();
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
     
+    
+    const configuration = new Configuration({
+        apiKey: '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'
+    });
+    const openai = new OpenAIApi(configuration);
+
     res.setHeader(
         "Access-Control-Allow-Origin",
         "chrome-extension://dhgbflmciegpmknahfplcnofcgbgfjge"
@@ -105,6 +111,23 @@ const server = http.createServer((req, res) => {
               });
         });
         break;
+    //ChatGPT case reserved
+    case (req.url === "/api/chat" && req.method === "POST"):
+        body = "";
+        req.on("data", (chunk) => {
+            body += chunk;
+        });
+        console.error(body);
+        const messages = JSON.parse(req.body);
+        const chatGPT = await openai.createChatCompletion({
+            model: 'gpt-3.5-turbo',
+            messages
+        });
+        const chatGPTMessage=chatGPT.data.choices[0].message;
+    
+        console.log(chatGPTMessage);
+    
+        return json(chatGPTMessage);
     default:
         // Handle other routes
         res.writeHead(404, { "Content-Type": "application/json" });
@@ -116,21 +139,3 @@ const server = http.createServer((req, res) => {
 server.listen(3000, () => {
     console.log("Server is running on port 3000");
 });
-
-const configuration = new Configuration({
-    apiKey: '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'
-});
-const openai = new OpenAIApi(configuration);
-
-async function runCompletion (request) {
-    const messages = request.JSON;
-    const chatGPT = await openai.createChatCompletion({
-        model: 'gpt-3.5-turbo',
-        messages
-    });
-    const chatGPTMessage=chatGPT.data.choices[0].message;
-
-    console.log(chatGPTMessage);
-
-    return json(chatGPTMessage);
-}
