@@ -1,0 +1,15 @@
+{
+    "version":"2.0.0",
+    "tasks": [
+        {
+            "label": "Launch server",
+            "type": "shell",
+            "command": "node server/server.js",
+            "presentation": {
+                "reveal": "always",
+                "clear": true,
+                "panel": "dedicated"
+            }
+        }
+    ]
+}

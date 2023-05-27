@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 //Check if cashback verification is active
 let URLRetrievalRunning = false;
 
-async function createMessage(sText){
+async function createMessage(sText) {
     /*
         entireMessageDiv
             authorDiv
@@ -18,29 +18,41 @@ async function createMessage(sText){
             divider2
             timeDiv
     */
-    const entireMessageDiv = document.createElement('div');
+    const entireMessageDiv = document.createElement("div");
     document.getElementById("messages_container").appendChild(entireMessageDiv);
-    entireMessageDiv.classList.add("chat-log_item", "chat-log_item-own", "z-depth-0");
+    entireMessageDiv.classList.add(
+        "chat-log_item",
+        "chat-log_item-own",
+        "z-depth-0"
+    );
 
-    const authorDiv = document.createElement('div');
+    const authorDiv = document.createElement("div");
     entireMessageDiv.appendChild(authorDiv);
-    authorDiv.classList.add("row", "justify-content-end", "mx-1", "d-flex", "col-auto", "px-0");
+    authorDiv.classList.add(
+        "row",
+        "justify-content-end",
+        "mx-1",
+        "d-flex",
+        "col-auto",
+        "px-0"
+    );
 
-    const authorSpan = document.createElement('span');
+    const authorSpan = document.createElement("span");
     authorDiv.appendChild(authorSpan);
     authorSpan.classList.add("chat-log_author");
-    authorSpan.innerHTML = "Vali"; 
+    authorSpan.innerHTML = "Vali";
 
-    const divider1 = document.createElement('hr');
+    const divider1 = document.createElement("hr");
     entireMessageDiv.appendChild(divider1);
     divider1.classList.add("my-1", "py-0", "col-8");
 
-    const messageDiv = document.createElement('div');
+    const messageDiv = document.createElement("div");
     entireMessageDiv.appendChild(messageDiv);
     messageDiv.classList.add("chat-log_message");
-    messageDiv.innerHTML = "salut bro sunt Valisalut bro sunt Valisalut bro sunt Valisalut bro sunt Vali"; 
-    
-    const divider2 = document.createElement('hr');
+    messageDiv.innerHTML =
+        "salut bro sunt Valisalut bro sunt Valisalut bro sunt Valisalut bro sunt Vali";
+
+    const divider2 = document.createElement("hr");
     entireMessageDiv.appendChild(divider2);
     divider2.classList.add("my-1", "py-0", "col-8");
 
@@ -48,20 +60,27 @@ async function createMessage(sText){
     let currentDate = new Date(),
         currentHour = String(currentDate.getHours()),
         currentMinute = String(currentDate.getMinutes());
-        currentHour = currentHour.length === 1 ? '0' + currentHour : currentHour;
-        currentMinute = currentMinute.length === 1 ? '0' + currentMinute : currentMinute;
-    const timeDiv = document.createElement('div');
+    currentHour = currentHour.length === 1 ? "0" + currentHour : currentHour;
+    currentMinute =
+        currentMinute.length === 1 ? "0" + currentMinute : currentMinute;
+    const timeDiv = document.createElement("div");
     entireMessageDiv.appendChild(timeDiv);
-    timeDiv.classList.add("row", "chat-log_time", "m-0", "p-0", "justify-content-end");
+    timeDiv.classList.add(
+        "row",
+        "chat-log_time",
+        "m-0",
+        "p-0",
+        "justify-content-end"
+    );
     timeDiv.innerHTML = `${currentHour}:${currentMinute}`;
 }
 
 async function onCashbackToggle() {
-    if(cashbackBtn.textContent.includes("ON")){
+    if (cashbackBtn.textContent.includes("ON")) {
         cashbackBtn.textContent = "Cashback OFF";
         URLRetrievalRunning = true;
     }
-    if(cashbackBtn.textContent.includes("OFF")){
+    if (cashbackBtn.textContent.includes("OFF")) {
         cashbackBtn.textContent = "Cashback ON";
         _currentURLRetriever();
         URLRetrievalRunning = false;
@@ -69,16 +88,15 @@ async function onCashbackToggle() {
 }
 
 async function _currentURLRetriever() {
-    chrome.tabs.query({ active: true, currentWindow: true}, function (tabs) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         const currentTab = tabs[0];
         const currentURL = currentTab.url;
         alert("Current URL: " + currentURL);
     });
-};
+}
 
 const userAction = async (url) => {
     // https?:\/\/(?:.*\.)*(.+\..+?)\/
-    const response = await fetch('http://localhost:3000/api/partners');
-    const myJson = await response.json(); 
-
-  }
+    const response = await fetch("http://localhost:3000/api/partners");
+    const myJson = await response.json();
+};
