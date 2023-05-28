@@ -1,6 +1,10 @@
 const cashbackBtn = document.getElementById("cashbackToggleButton");
 const vbCuValiBtn = document.getElementById("vbCuValiButton");
 
+chrome.runtime.sendMessage({ text: "scriptus" }, function (response) {
+    console.log("Am venit ]napoi: ", response);
+});
+
 const urlReq = "http://localhost:3000";
 
 let idCounter = 0;

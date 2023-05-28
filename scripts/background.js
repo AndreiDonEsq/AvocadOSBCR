@@ -1,51 +1,60 @@
-// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-//     if (request.message == "popup_to_background") {
-//         console.log(request.message);
-//     }
-// });
-
-// chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-//     chrome.tabs.sendMessage(tabs[0].id, 'hi'), { message: "background_to_content" };
-// });
-
-
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.text === "scriptus") {
+        console.log(request.message);
+    }
+});
 
 let infus;
 
 // Function to handle the context menu click event
 async function handleContextMenuClick(info, tab) {
-    infus = info
+    infus = info;
     // Perform the desired action when the menu item is clicked
-    chrome.windows.create({
-        url : "../ui/popup.html",
-        focused : true,
-        type : "popup"}).then(async () => {
-        
-            chrome.runtime.onMessage.addListener(function listener(msg, sender, sendResponse) {
-                console.log("Received %o from %o, frame", msg, sender.tab, sender.frameId);
-                
-                    sendResponse(infus.selectionText);
-                 
-                
+    chrome.windows
+        .create({
+            url: "../ui/popup.html",
+            focused: true,
+            type: "popup",
+            width: 600,
+            height: 800
+        })
+        .then(async () => {
+            chrome.runtime.onMessage.addListener(function listener(
+                msg,
+                sender,
+                sendResponse
+            ) {
+                console.log(
+                    "Received %o from %o, frame",
+                    msg,
+                    sender.tab,
+                    sender.frameId
+                );
+                sendResponse(infus.selectionText);
             });
 
-        console.log("Context menu item clicked!");
-        console.log("Selected text:", info.selectionText);
-        console.log("Page URL:", info.pageUrl);})
-
-    
+            console.log("Context menu item clicked!");
+            console.log("Selected text:", info.selectionText);
+            console.log("Page URL:", info.pageUrl);
+        });
 }
 
 // Create a context menu item
 chrome.contextMenus.create({
     id: "myContextMenu",
-    title: "Intreaba-l pe Vali",
+    title: "Intreabă-l pe Vali",
+    contexts: ["selection", "page"],
+});
+
+chrome.contextMenus.create({
+    id: "myContextMenu",
+    title: "Amintește-mi, Vali!",
     contexts: ["selection", "page"],
 });
 
 chrome.contextMenus.create({
     id: "myContextMenu2",
-    title: "Ajuta-ne cu feedback!",
+    title: "Ajută cu feedback!",
     contexts: ["selection", "page"],
 });
 
