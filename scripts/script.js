@@ -9,11 +9,10 @@ document.addEventListener("DOMContentLoaded", function () {
     vbCuValiBtn.addEventListener("click", createUserMessage);
 });
 
-chrome.runtime.sendMessage({text: "hey"}, function(response) {
-    chatGPTRequest("ce parere ai de: " + response +" ?" )
+chrome.runtime.sendMessage({ text: "hey" }, function (response) {
+    chatGPTRequest("ce parere ai de: " + response + " ?");
     console.log("Response: ", response);
 });
-
 
 const messages = [
     {
@@ -29,7 +28,6 @@ const messages = [
             "A requestor's credit must be less than 40 percent of their income. " +
             "Do not offer a credit if the requestor has more expenses than income, but offer financial advice to improve their financial situation. " +
             "We offer cash back or money back option",
-           
     },
 ];
 
@@ -49,9 +47,6 @@ async function chatGPTRequest(message) {
             _createValiMessage(data.content);
         });
 }
-
-//Check if cashback verification is active
-let URLRetrievalRunning = false;
 
 async function createUserMessage() {
     /*
@@ -124,11 +119,12 @@ async function createUserMessage() {
     );
     timeDiv.innerHTML = `${currentHour}:${currentMinute}`;
 
-    
     const entireImgMessageDiv = document.createElement("div");
-    document.getElementById("messages_container").appendChild(entireImgMessageDiv);
+    document
+        .getElementById("messages_container")
+        .appendChild(entireImgMessageDiv);
     entireImgMessageDiv.classList.add("chat-log_item_img", "z-depth-0");
-    entireImgMessageDiv.setAttribute("id", "imageLoad"+String(idCounter++));
+    entireImgMessageDiv.setAttribute("id", "imageLoad" + String(idCounter++));
 
     const authorImgDiv = document.createElement("div");
     entireImgMessageDiv.appendChild(authorImgDiv);
@@ -142,9 +138,7 @@ async function createUserMessage() {
     );
     let loadingImg = document.createElement("img");
     loadingImg.src = "../images/typing-texting.gif";
-    loadingImg.classList.add(
-        "tiny"
-    );
+    loadingImg.classList.add("tiny");
 
     authorImgDiv.appendChild(loadingImg);
 }
@@ -191,7 +185,9 @@ async function _createValiMessage(sText) {
     entireMessageDiv.appendChild(divider2);
     divider2.classList.add("my-1", "py-0", "col-8");
 
-    let loadingIndicator = document.getElementById("imageLoad"+String(idCounter-1));
+    let loadingIndicator = document.getElementById(
+        "imageLoad" + String(idCounter - 1)
+    );
     loadingIndicator.remove();
 
     //Get current date time and add them
@@ -216,12 +212,10 @@ async function _createValiMessage(sText) {
 async function onCashbackToggle() {
     if (cashbackBtn.textContent.includes("ON")) {
         cashbackBtn.textContent = "Cashback OFF";
-        URLRetrievalRunning = true;
     }
     if (cashbackBtn.textContent.includes("OFF")) {
         cashbackBtn.textContent = "Cashback ON";
         _currentURLRetriever();
-        URLRetrievalRunning = false;
     }
 }
 
