@@ -1,7 +1,7 @@
 body{
   overflow : hidden;
-  width: 400px;
-  height: 100vh;
+  width: 600px;
+  height: 60vh;
   background-color:#efefff;
   
 }
@@ -11,7 +11,7 @@ body{
 
 .chat-log {
 	overflow: auto;
-	height: calc(75vh);
+	height: calc(35vh);
 
 }
 
@@ -25,6 +25,17 @@ body{
 	font-size: 13px;
 	border-radius: 0 20px 20px 20px;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+	clear: both;
+}
+.chat-log_item_img {
+	background: #ffffff;
+	padding: 10px;
+	margin: 0 auto 10px;
+	max-width: 95%;
+	min-width: 25%;
+	float: left;
+	font-size: 13px;
+	border-radius: 0 20px 20px 20px;
 	clear: both;
 }
 
@@ -84,5 +95,8 @@ body{
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	width: 50%;
+}
+.tiny {
+	width:150px;
+	height:100px;
 }
