@@ -1,36 +1,24 @@
 const cashbackBtn = document.getElementById("cashbackToggleButton");
 const vbCuValiBtn = document.getElementById("vbCuValiButton");
+
 document.addEventListener("DOMContentLoaded", function () {
     cashbackBtn.addEventListener("click", onCashbackToggle);
     vbCuValiBtn.addEventListener("click", createUserMessage);
 });
 
-function extractData() {
-    var data = 'Data you want to extract';
-    
-    // Send the extracted data to the background script
-    chrome.runtime.sendMessage({ action: 'sendData', data: data });
-    console.log(data)
-  }
-  
-  // Listen for messages from the background script
-  chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    if (message.action === 'extractData') {
-      // Call the function to extract data
-      extractData();
-    }
-  });
 
-const urlReq = "http://localhost:3000";
+function getElementByClass(className) {
+    const elements = document.getElementsByClassName(className);
+    return elements.length > 0 ? elements[0] : null;
+  }
+
+
 
 const messages = [
     {
         role: "system",
         content:
-            "You must respond as a financial assistant named Vali, working for 'team AvocadOS'. " +
-            "Please respond in Romanian as that is our target group. " +
-            "Give clear answers, however try to act a little bit like a salesman as well. "+
-            "Ask details about the requestor's monthly income and expenses",
+            "You must respond as a financial assistant named Vali, working for 'team AvocadOS'. Give clear answers, however try to act a little bit like a salesman as well.",
     },
 ];
 
@@ -198,6 +186,15 @@ async function onCashbackToggle() {
         URLRetrievalRunning = false;
     }
 }
+
+// chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+//     if (request.method == "getSelection")
+//       console.log({data: window.getSelection().toString()});
+//     else
+//     console.log({}); // snub them.
+// });
+
+
 
 async function _currentURLRetriever() {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
