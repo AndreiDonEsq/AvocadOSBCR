@@ -15,7 +15,7 @@
     ],
     "host_permissions": [
         "http://localhost:3000/*"
-    ],    
+    ],
     "background": {
         "service_worker": "scripts/background.js"
     },
