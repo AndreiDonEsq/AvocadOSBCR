@@ -8,21 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
     vbCuValiBtn.addEventListener("click", createUserMessage);
 });
 
-function getElementByClass(className) {
-    const elements = document.getElementsByClassName(className);
-    return elements.length > 0 ? elements[0] : null;
-}
-
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    if (request.message == "background_to_content") {
-        console.log(request.message);
-    }
+chrome.runtime.sendMessage({text: "hey"}, function(response) {
+    chatGPTRequest("ce parere ai de: " + response +" ?" )
+    console.log("Response: ", response);
 });
 
-chrome.runtime.sendMessage({
-    message: "content_to_background",
-    data: "any_data",
-});
 
 const messages = [
     {
