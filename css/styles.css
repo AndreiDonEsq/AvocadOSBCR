@@ -2,9 +2,14 @@ body{
   overflow : hidden;
   width: 600px;
   height: 60vh;
-  background-color:#efefff;
-  
+  background-color:#efefff;  
 }
+.bodypopup{
+	overflow : hidden;
+	width: 600px;
+	height: 30vh;
+	background-color:#efefff;  
+  }
 .msgcard {
 	box-shadow: 0 0px 25px rgba(0, 0, 0, .2);
 }
