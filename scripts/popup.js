@@ -4,6 +4,10 @@ chrome.runtime.sendMessage({ text: "hey" }, function (response) {
     console.log("Response: ", response);
 });
 
+const vbCuValiBtn = document.getElementById("vbCuValiButton");
+document.addEventListener("DOMContentLoaded", function () {
+    vbCuValiBtn.addEventListener("click", createUserMessage);
+});
 const urlReq = "http://localhost:3000";
 let idCounter = 0;
 const messages = [
@@ -81,13 +85,13 @@ async function createUserMessage(message, additionalInfo) {
     entireMessageDiv.appendChild(messageDiv);
     messageDiv.classList.add("chat-log_message");
     
-    if(message){
+    if(additionalInfo){
         messageDiv.innerHTML = message;
         chatGPTRequest(message+additionalInfo);
     } else {
         //Read textArea content, set it as message. This will later be sent to ChatGPT.
         const messageContent = document.getElementById("messageTextArea").value;
-        messageDiv.innerHTML = message;
+        messageDiv.innerHTML = messageContent;
         chatGPTRequest(messageContent);
         //Don't foregt to clear the textarea
         document.getElementById("messageTextArea").value = "";
