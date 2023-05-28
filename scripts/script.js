@@ -1,13 +1,20 @@
 const cashbackBtn = document.getElementById("cashbackToggleButton");
 const vbCuValiBtn = document.getElementById("vbCuValiButton");
+
+const urlReq = "http://localhost:3000";
+
 document.addEventListener("DOMContentLoaded", function () {
     cashbackBtn.addEventListener("click", onCashbackToggle);
     vbCuValiBtn.addEventListener("click", createUserMessage);
 });
-const collection = document.getElementsByClassName("product-new-price");
-console.log(collection)
 
-const urlReq = "http://localhost:3000";
+
+function getElementByClass(className) {
+    const elements = document.getElementsByClassName(className);
+    return elements.length > 0 ? elements[0] : null;
+  }
+
+
 
 const messages = [
     {
@@ -189,6 +196,15 @@ async function onCashbackToggle() {
         URLRetrievalRunning = false;
     }
 }
+
+// chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+//     if (request.method == "getSelection")
+//       console.log({data: window.getSelection().toString()});
+//     else
+//     console.log({}); // snub them.
+// });
+
+
 
 async function _currentURLRetriever() {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
