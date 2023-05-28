@@ -1,6 +1,6 @@
+var oldResponse = "hey"
 
-
-  chrome.runtime.sendMessage({text: "hey"}, function(response) {
+  chrome.runtime.sendMessage({text: oldResponse}, function(response) {
     chatGPTRequest("ce parere ai de: " + response +" ?" )
     console.log("Response: ", response);
 });

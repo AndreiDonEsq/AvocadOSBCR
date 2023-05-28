@@ -10,19 +10,23 @@
 
 
 
-
+let infus;
 
 // Function to handle the context menu click event
 async function handleContextMenuClick(info, tab) {
+    infus = info
     // Perform the desired action when the menu item is clicked
     chrome.windows.create({
         url : "../ui/popup.html",
         focused : true,
         type : "popup"}).then(async () => {
         
-            chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+            chrome.runtime.onMessage.addListener(function listener(msg, sender, sendResponse) {
                 console.log("Received %o from %o, frame", msg, sender.tab, sender.frameId);
-                sendResponse(info.selectionText);
+                
+                    sendResponse(infus.selectionText);
+                 
+                
             });
 
         console.log("Context menu item clicked!");
