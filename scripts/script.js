@@ -205,13 +205,6 @@ async function onCashbackToggle() {
     }
 }
 
-// chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-//     if (request.method == "getSelection")
-//       console.log({data: window.getSelection().toString()});
-//     else
-//     console.log({}); // snub them.
-// });
-
 async function _currentURLRetriever() {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         const currentTab = tabs[0];
