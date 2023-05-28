@@ -9,11 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
     vbCuValiBtn.addEventListener("click", createUserMessage);
 });
 
-chrome.runtime.sendMessage({ text: "hey" }, function (response) {
-    chatGPTRequest("ce parere ai de: " + response + " ?");
-    console.log("Response: ", response);
-});
-
 const messages = [
     {
         role: "system",

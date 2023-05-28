@@ -41,7 +41,7 @@ chrome.contextMenus.create({
 
 chrome.contextMenus.create({
     id: "myContextMenu2",
-    title: "Intreaba-l pe Vali evirom",
+    title: "Ajuta-ne cu feedback!",
     contexts: ["selection", "page"],
 });
 
