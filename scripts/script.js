@@ -3,6 +3,7 @@ const vbCuValiBtn = document.getElementById("vbCuValiButton");
 
 const urlReq = "http://localhost:3000";
 
+let idCounter = 0;
 document.addEventListener("DOMContentLoaded", function () {
     cashbackBtn.addEventListener("click", onCashbackToggle);
     vbCuValiBtn.addEventListener("click", createUserMessage);
@@ -23,7 +24,6 @@ chrome.runtime.sendMessage({
     message: "content_to_background",
     data: "any_data",
 });
-
 const messages = [
     {
         role: "system",
@@ -132,6 +132,30 @@ async function createUserMessage() {
         "justify-content-end"
     );
     timeDiv.innerHTML = `${currentHour}:${currentMinute}`;
+
+    
+    const entireImgMessageDiv = document.createElement("div");
+    document.getElementById("messages_container").appendChild(entireImgMessageDiv);
+    entireImgMessageDiv.classList.add("chat-log_item_img", "z-depth-0");
+    entireImgMessageDiv.setAttribute("id", "imageLoad"+String(idCounter++));
+
+    const authorImgDiv = document.createElement("div");
+    entireImgMessageDiv.appendChild(authorImgDiv);
+    authorImgDiv.classList.add(
+        "row",
+        "justify-content-end",
+        "mx-1",
+        "d-flex",
+        "col-auto",
+        "px-0"
+    );
+    let loadingImg = document.createElement("img");
+    loadingImg.src = "../images/typing-texting.gif";
+    loadingImg.classList.add(
+        "tiny"
+    );
+
+    authorImgDiv.appendChild(loadingImg);
 }
 
 async function _createValiMessage(sText) {
@@ -176,6 +200,9 @@ async function _createValiMessage(sText) {
     entireMessageDiv.appendChild(divider2);
     divider2.classList.add("my-1", "py-0", "col-8");
 
+    let loadingIndicator = document.getElementById("imageLoad"+String(idCounter-1));
+    loadingIndicator.remove();
+
     //Get current date time and add them
     let currentDate = new Date(),
         currentHour = String(currentDate.getHours()),
@@ -206,13 +233,6 @@ async function onCashbackToggle() {
         URLRetrievalRunning = false;
     }
 }
-
-// chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-//     if (request.method == "getSelection")
-//       console.log({data: window.getSelection().toString()});
-//     else
-//     console.log({}); // snub them.
-// });
 
 async function _currentURLRetriever() {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {

@@ -20,7 +20,16 @@ function handleContextMenuClick(info, tab) {
     chrome.windows.create({
         url : "../ui/popup.html",
         focused : true,
-        type : "popup"});
+        type : "popup"}).then(() => {
+            chrome.runtime.sendMessage({
+                message: "background_to_popup",
+                data: {
+                    text: info.selectionText,
+                    url: info.pageUrl
+                },
+            })
+        });
+
     console.log("Context menu item clicked!");
     console.log("Selected text:", info.selectionText);
     console.log("Page URL:", info.pageUrl);
