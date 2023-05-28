@@ -8,13 +8,21 @@ document.addEventListener("DOMContentLoaded", function () {
     vbCuValiBtn.addEventListener("click", createUserMessage);
 });
 
-
 function getElementByClass(className) {
     const elements = document.getElementsByClassName(className);
     return elements.length > 0 ? elements[0] : null;
-  }
+}
 
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.message == "background_to_content") {
+        console.log(request.message);
+    }
+});
 
+chrome.runtime.sendMessage({
+    message: "content_to_background",
+    data: "any_data",
+});
 
 const messages = [
     {
@@ -22,10 +30,13 @@ const messages = [
         content:
             "You must respond as a financial assistant named Vali, working for 'team AvocadOS'. " +
             "Please respond in Romanian as that is our target group. " +
-            "Give clear answers, however try to act a little bit like a salesman as well. "+
-            "Ask the person if they want to buy something. "+
-            "You don't represent a shop. "+
-            "Based on what the person wants to buy, aproximate the price of that item ",
+            "Give clear answers, however try to act a little bit like a salesman as well. " +
+            "Ask the person if they want to buy something. " +
+            "You don't represent a shop. " +
+            "Based on what the person wants to buy, aproximate the price of that item. " +
+            "Ask details about the requestor's monthly income and expenses, but wait for questions regarding credits first. " +
+            "A requestor's credit must be less than 40 percent of their income. " +
+            "Do not offer a credit if the requestor has more expenses than income, but offer financial advice to improve their financial situation",
     },
 ];
 
@@ -201,8 +212,6 @@ async function onCashbackToggle() {
 //     console.log({}); // snub them.
 // });
 
-
-
 async function _currentURLRetriever() {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         const currentTab = tabs[0];
@@ -246,10 +255,14 @@ const _proceedToSendURLMessage = async (url) => {
                         `Ai auzit de Vali Moneyback? Cu această extensie inteligentă de banking, economisești ${element.procent}% la toate cumpărăturile tale pentru ${element.name}, făcute într-un mod ușor și convenabil.`,
                         `Transformă-ți cumpărăturile într-o experiență mai avantajoasă cu Vali Moneyback! Obține ${element.procent}% cashback la fiecare achiziție pentru ${element.name}, utilizând extensia de banking cea mai performantă de pe piață.`,
                         `Economisește mai mult cu Vali Moneyback! Cu ajutorul celei mai tari extensii de banking, primești o reducere de ${element.procent}% la toate achizițiile tale pentru ${element.name}, oferindu-ți mai multă putere de cumpărare.`,
-                        `Descoperă cum să economisești bani cu Vali Moneyback! Utilizând extensia de banking inovatoare, primești ${element.procent}% reducere la cumpărăturile tale pentru ${element.name}, asigurându-ți cea mai bună ofertă disponibilă.`
+                        `Descoperă cum să economisești bani cu Vali Moneyback! Utilizând extensia de banking inovatoare, primești ${element.procent}% reducere la cumpărăturile tale pentru ${element.name}, asigurându-ți cea mai bună ofertă disponibilă.`,
                     ];
                     _createValiMessage(
-                        randomValiMessages[Math.floor(Math.random()*randomValiMessages.length)]
+                        randomValiMessages[
+                            Math.floor(
+                                Math.random() * randomValiMessages.length
+                            )
+                        ]
                     );
                 }
             });
